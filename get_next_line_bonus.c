@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kiijima <kiijima@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 09:17:20 by kiijima           #+#    #+#             */
-/*   Updated: 2022/06/05 20:07:01 by kiijima          ###   ########.fr       */
+/*   Updated: 2022/06/05 22:03:58 by kiijima          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_strchr(char *s, char c)
 {
@@ -113,15 +113,15 @@ char	*prepare_next_line(char *str)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*str;
+	static char	*str[256];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	str = get_buffer_line(fd, str);
-	if (str == NULL)
+	str[fd] = get_buffer_line(fd, str[fd]);
+	if (str[fd] == NULL)
 		return (NULL);
-	line = get_one_line(str);
-	str = prepare_next_line(str);
+	line = get_one_line(str[fd]);
+	str[fd] = prepare_next_line(str[fd]);
 	return (line);
 }
 
@@ -130,17 +130,45 @@ char	*get_next_line(int fd)
 // int main()
 // {
 // 	size_t	i;
+// 	size_t	j;
 // 	int		fd;
+// 	int		fd1;
+// 	int		fd2;
+// 	int		fd3;
 // 	char *s;
 
-// 	fd = open("fileA",O_RDONLY);
-// 	i = 0;
-// 	while (i < 5)
+// 	fd1 = open("file1",O_RDONLY);
+// 	fd2 = open("file2",O_RDONLY);
+// 	fd3 = open("file3",O_RDONLY);
+// 	i = 1;
+// 	fd = 0;
+// 	while (i <= 3)
 // 	{
-// 		if (s == NULL || s[0] == '\0')
-// 			printf("\n");
-// 		s = get_next_line(fd);
-// 		printf("line%zu : %s", i, s);
+// 		printf("\nfile:%zu\n", i);
+// 		switch (i)
+// 		{
+// 		case 1:
+// 			fd = fd1;
+// 			break;
+// 		case 2:
+// 			fd = fd2;
+// 			break;
+// 		case 3:
+// 			fd = fd3;
+// 			break;
+// 		default:
+// 			break;
+// 		}
+// 		j = 1;
+// 		while (j < 5)
+// 		{
+// 			s = get_next_line(fd);
+// 			printf("line%zu : %s", j, s);
+// 			if (s == NULL || s[0] == '\0')
+// 				printf("\n");
+// 			j++;
+// 		}
 // 		i++;
 // 	}
 // }
+	
